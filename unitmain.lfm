@@ -8,7 +8,6 @@ object Form1: TForm1
   Caption = 'OpenTX Switch Map Widget'
   ClientHeight = 539
   ClientWidth = 478
-  OnActivate = FormActivate
   OnCreate = FormCreate
   LCLVersion = '2.0.10.0'
   object img: TImage

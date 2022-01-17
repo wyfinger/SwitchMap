@@ -5,7 +5,7 @@ unit unitMain;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, Spin, ShellApi, Windows;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, Spin, Windows;
 
 type
 
@@ -49,7 +49,6 @@ type
     Memo2: TMemo;
     SpinEdit1: TSpinEdit;
     procedure Button1Click(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure imgPaint(Sender: TObject);
     procedure SAEnterOrChange(Sender: TObject);
@@ -179,7 +178,7 @@ end;
 
 procedure TForm1.imgPaint(Sender: TObject);
 begin
-  DrawMap
+  DrawMap;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -212,11 +211,6 @@ begin
          Lines.SaveToFile(p+IntToStr(SpinEdit1.Value)+'.lua');
          ShellExecute(0, 'open', PChar(p), nil, nil, SW_NORMAL);
        end;
-end;
-
-procedure TForm1.FormActivate(Sender: TObject);
-begin
-
 end;
 
 procedure TForm1.SAEnterOrChange(Sender: TObject);
