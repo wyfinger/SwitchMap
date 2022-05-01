@@ -1139,7 +1139,7 @@ object Form1: TForm1
     Height = 23
     Top = 502
     Width = 58
-    TabOrder = 8
+    TabOrder = 9
     Value = 1
   end
   object Label1: TLabel
@@ -1157,7 +1157,7 @@ object Form1: TForm1
     Width = 99
     Caption = 'Generate'
     OnClick = Button1Click
-    TabOrder = 9
+    TabOrder = 10
   end
   object Memo1: TMemo
     Left = 320
@@ -1172,6 +1172,7 @@ object Form1: TForm1
     Font.Quality = fqDraft
     Lines.Strings = (
       'local switchMapBitmap'
+      'local labels '
       ''
       'local defaultOptions = {'
       '  { "ModelNo", VALUE,  1 },'
@@ -1180,6 +1181,8 @@ object Form1: TForm1
       'local function createWidget(zone, options)      '
       '  switchMapBitmap = Bitmap.open("/WIDGETS/SwitchMap/map.png")'
       '  local wgt = { zone=zone, options=options }  '
+      '  labels = loadScript("/WIDGETS/SwitchMap/" .. wgt.options.ModelNo .. ".lua")'
+      '  labels = labels()'
       '  return wgt'
       'end'
       ''
@@ -1201,118 +1204,118 @@ object Form1: TForm1
       'local function refreshWidget(wgt)'
       ''
       '  if switchMapBitmap ~= nil then        '
-      #9'lcd.drawBitmap(switchMapBitmap, wgt.zone.x, wgt.zone.y, 100)'
+      '    lcd.drawBitmap(switchMapBitmap, wgt.zone.x, wgt.zone.y, 100)'
       '  else'
       '    lcd.drawText(wgt.zone.x+5, wgt.zone.y+5, "switchMapBitmap image is null")'
-      #9'return'
+      '    return'
       '  end'
-      '   '
-      '  local labels,err = loadScript("/WIDGETS/SwitchMap/" .. wgt.options.ModelNo .. ".lua")'
+      '  '
       '  if labels == nil then'
       '    lcd.drawText(wgt.zone.x+5, wgt.zone.y+5, "Can''t find " .. wgt.options.ModelNo .. ".lua file, change ModelNo")'
-      #9'return'
-      '  else '
-      '    labels = labels()'
-      '  end'#9
+      '    return'
+      '  end'
       '  '
       '  local state = {'
       '    sa= getSwitchPos(getValue("sa")),'
-      #9'sb= getSwitchPos(getValue("sb")),'
-      #9'sc= getSwitchPos(getValue("sc")),'
-      #9'sd= getSwitchPos(getValue("sd")),'
-      #9'se= getSwitchPos(getValue("se")),'#9
-      #9'sf= getSwitchPos(getValue("sf")),'
-      #9'sg= getSwitchPos(getValue("sg")),'
-      #9'sh= getSwitchPos(getValue("sh"))'
+      '    sb= getSwitchPos(getValue("sb")),'
+      '    sc= getSwitchPos(getValue("sc")),'
+      '    sd= getSwitchPos(getValue("sd")),'
+      '    se= getSwitchPos(getValue("se")),'
+      '    sf= getSwitchPos(getValue("sf")),'
+      '    sg= getSwitchPos(getValue("sg")),'
+      '    sh= getSwitchPos(getValue("sh"))'
       '  }'
       '  '
+      '  lcd.setColor(CUSTOM_COLOR, BLUE)  '
+      '  lcd.drawText(wgt.zone.x+(460/2)-math.floor((#(labels.mn)*8)/2), wgt.zone.y+25, labels.mn, CUSTOM_COLOR + SHADOWED)'
+      '  '
       '  if (state.sa > 0) and (labels.sa[state.sa] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+83,      wgt.zone.y+197,       wgt.zone.x+83-19,   wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+83+1,    wgt.zone.y+197,       wgt.zone.x+83-19+1, wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+83,      wgt.zone.y+197,       wgt.zone.x+83-19,   wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+83+1,    wgt.zone.y+197,       wgt.zone.x+83-19+1, wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+83-19,   wgt.zone.y+197-36,    wgt.zone.x+83-19,   wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+83-19+1, wgt.zone.y+197-36,    wgt.zone.x+83-19+1, wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+83-19+1, wgt.zone.y+197-36,    wgt.zone.x+83-19+1, wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+83-19,   wgt.zone.y+197-108,   wgt.zone.x+83-14,   wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+83-19,   wgt.zone.y+197-108+1, wgt.zone.x+83-14,   wgt.zone.y+197-108+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+83-19,   wgt.zone.y+197-108+1, wgt.zone.x+83-14,   wgt.zone.y+197-108+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+83-10,   wgt.zone.y+197-119, labels.sa[state.sa], CUSTOM_COLOR)'
       '  end'
       '  if (state.sb > 0) and (labels.sb[state.sb] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+114,      wgt.zone.y+186,      wgt.zone.x+114-19,   wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+114+1,    wgt.zone.y+186,      wgt.zone.x+114-19+1, wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+114,      wgt.zone.y+186,      wgt.zone.x+114-19,   wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+114+1,    wgt.zone.y+186,      wgt.zone.x+114-19+1, wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+114-19,   wgt.zone.y+186-38,   wgt.zone.x+114-19,   wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+114-19+1, wgt.zone.y+186-38,   wgt.zone.x+114-19+1, wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+114-19+1, wgt.zone.y+186-38,   wgt.zone.x+114-19+1, wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+114-19,   wgt.zone.y+186-73,   wgt.zone.x+114-14,   wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+114-19,   wgt.zone.y+186-73+1, wgt.zone.x+114-14,   wgt.zone.y+186-73+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+114-19,   wgt.zone.y+186-73+1, wgt.zone.x+114-14,   wgt.zone.y+186-73+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+114-10,   wgt.zone.y+186-84, labels.sb[state.sb], CUSTOM_COLOR)'
       '  end'
-      '  if (state.sc > 0) and (labels.sc[state.sc] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+348,      wgt.zone.y+186,      wgt.zone.x+348+19,   wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+348+1,    wgt.zone.y+186,      wgt.zone.x+348+19+1, wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
+      '  if (state.sc > 0) and (labels.sc[state.sc] ~= "") then'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+348,      wgt.zone.y+186,      wgt.zone.x+348+19,   wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+348+1,    wgt.zone.y+186,      wgt.zone.x+348+19+1, wgt.zone.y+186-38, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+348+19,   wgt.zone.y+186-38,   wgt.zone.x+348+19,   wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+348+19+1, wgt.zone.y+186-38,   wgt.zone.x+348+19+1, wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+348+19+1, wgt.zone.y+186-38,   wgt.zone.x+348+19+1, wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+348+19,   wgt.zone.y+186-73,   wgt.zone.x+348+14,   wgt.zone.y+186-73, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+348+19,   wgt.zone.y+186-73+1, wgt.zone.x+348+14,   wgt.zone.y+186-73+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+348+19,   wgt.zone.y+186-73+1, wgt.zone.x+348+14,   wgt.zone.y+186-73+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+348+10,   wgt.zone.y+186-84, labels.sc[state.sc], CUSTOM_COLOR + RIGHT)'
       '  end'
-      '  if (state.sd > 0) and (labels.sd[state.sd] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+381,      wgt.zone.y+197,       wgt.zone.x+381+19,   wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+381+1,    wgt.zone.y+197,       wgt.zone.x+381+19+1, wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
+      '  if (state.sd > 0) and (labels.sd[state.sd] ~= "") then'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+381,      wgt.zone.y+197,       wgt.zone.x+381+19,   wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+381+1,    wgt.zone.y+197,       wgt.zone.x+381+19+1, wgt.zone.y+197-36, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+381+19,   wgt.zone.y+197-36,    wgt.zone.x+381+19,   wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+381+19+1, wgt.zone.y+197-36,    wgt.zone.x+381+19+1, wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+381+19+1, wgt.zone.y+197-36,    wgt.zone.x+381+19+1, wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+381+19,   wgt.zone.y+197-108,   wgt.zone.x+381+14,   wgt.zone.y+197-108, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+381+19,   wgt.zone.y+197-108+1, wgt.zone.x+381+14,   wgt.zone.y+197-108+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+381+19,   wgt.zone.y+197-108+1, wgt.zone.x+381+14,   wgt.zone.y+197-108+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+381+10,   wgt.zone.y+197-119, labels.sd[state.sd], CUSTOM_COLOR + RIGHT)'
       '  end'
-      '  if (state.se > 0) and (labels.se[state.se] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+37,      wgt.zone.y+161,       wgt.zone.x+37-17,   wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+37+1,    wgt.zone.y+161,       wgt.zone.x+37-17+1, wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
+      '  if (state.se > 0) and (labels.se[state.se] ~= "") then'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+37,      wgt.zone.y+161,       wgt.zone.x+37-17,   wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+37+1,    wgt.zone.y+161,       wgt.zone.x+37-17+1, wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+37-17,   wgt.zone.y+161-25,    wgt.zone.x+37-17,   wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+37-17+1, wgt.zone.y+161-25,    wgt.zone.x+37-17+1, wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+37-17+1, wgt.zone.y+161-25,    wgt.zone.x+37-17+1, wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+37-17,   wgt.zone.y+161-129,   wgt.zone.x+37-12,   wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+37-17,   wgt.zone.y+161-129+1, wgt.zone.x+37-12,   wgt.zone.y+161-129+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+37-17,   wgt.zone.y+161-129+1, wgt.zone.x+37-12,   wgt.zone.y+161-129+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+37-8,    wgt.zone.y+161-140, labels.se[state.se], CUSTOM_COLOR)'
       '  end'
-      '  if (state.sf > 0) and (labels.sf[state.sf] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+38,     wgt.zone.y+140,      wgt.zone.x+38-8,   wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+38+1,   wgt.zone.y+140,      wgt.zone.x+38-8+1, wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
+      '  if (state.sf > 0) and (labels.sf[state.sf] ~= "") then'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+38,     wgt.zone.y+140,      wgt.zone.x+38-8,   wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+38+1,   wgt.zone.y+140,      wgt.zone.x+38-8+1, wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+38-8,   wgt.zone.y+140-12,   wgt.zone.x+38-8,   wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+38-8+1, wgt.zone.y+140-12,   wgt.zone.x+38-8+1, wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+38-8+1, wgt.zone.y+140-12,   wgt.zone.x+38-8+1, wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+38-8,   wgt.zone.y+140-81,   wgt.zone.x+38-3,   wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+38-8,   wgt.zone.y+140-81+1, wgt.zone.x+38-3,   wgt.zone.y+140-81+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+38-8,   wgt.zone.y+140-81+1, wgt.zone.x+38-3,   wgt.zone.y+140-81+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+38,     wgt.zone.y+140-92, labels.sf[state.sf], CUSTOM_COLOR)'
       '  end'
-      '  if (state.sg > 0) and (labels.sg[state.sg] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+427,      wgt.zone.y+161,       wgt.zone.x+427+17,   wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+427+1,    wgt.zone.y+161,       wgt.zone.x+427+17+1, wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
+      '  if (state.sg > 0) and (labels.sg[state.sg] ~= "") then'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+427,      wgt.zone.y+161,       wgt.zone.x+427+17,   wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+427+1,    wgt.zone.y+161,       wgt.zone.x+427+17+1, wgt.zone.y+161-25, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+427+17,   wgt.zone.y+161-25,    wgt.zone.x+427+17,   wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+427+17+1, wgt.zone.y+161-25,    wgt.zone.x+427+17+1, wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+427+17+1, wgt.zone.y+161-25,    wgt.zone.x+427+17+1, wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+427+17,   wgt.zone.y+161-129,   wgt.zone.x+427+12,   wgt.zone.y+161-129, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+427+17,   wgt.zone.y+161-129+1, wgt.zone.x+427+12,   wgt.zone.y+161-129+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+427+17,   wgt.zone.y+161-129+1, wgt.zone.x+427+12,   wgt.zone.y+161-129+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+427+8,    wgt.zone.y+161-140, labels.sg[state.sg], CUSTOM_COLOR + RIGHT)'
       '  end'
       '  if (state.sh > 0) and (labels.sh[state.sh] ~= "") then    '
-      #9'lcd.setColor(CUSTOM_COLOR, RED)'#9
-      #9'lcd.drawLine(wgt.zone.x+425,     wgt.zone.y+140,      wgt.zone.x+425+8,   wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+425+1,   wgt.zone.y+140,      wgt.zone.x+425+8+1, wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
+      '    lcd.setColor(CUSTOM_COLOR, RED)'
+      '    lcd.drawLine(wgt.zone.x+425,     wgt.zone.y+140,      wgt.zone.x+425+8,   wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+425+1,   wgt.zone.y+140,      wgt.zone.x+425+8+1, wgt.zone.y+140-12, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+425+8,   wgt.zone.y+140-12,   wgt.zone.x+425+8,   wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+425+8+1, wgt.zone.y+140-12,   wgt.zone.x+425+8+1, wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+425+8+1, wgt.zone.y+140-12,   wgt.zone.x+425+8+1, wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
       '    lcd.drawLine(wgt.zone.x+425+8,   wgt.zone.y+140-81,   wgt.zone.x+425+3,   wgt.zone.y+140-81, SOLID, CUSTOM_COLOR)'
-      #9'lcd.drawLine(wgt.zone.x+425+8,   wgt.zone.y+140-81+1, wgt.zone.x+425+3,   wgt.zone.y+140-81+1, SOLID, CUSTOM_COLOR)'
+      '    lcd.drawLine(wgt.zone.x+425+8,   wgt.zone.y+140-81+1, wgt.zone.x+425+3,   wgt.zone.y+140-81+1, SOLID, CUSTOM_COLOR)'
       '    lcd.drawText(wgt.zone.x+425,     wgt.zone.y+140-92, labels.sh[state.sh], CUSTOM_COLOR + RIGHT)'
-      '  end'#9
+      '  end'
       'end'
       ''
       'return { name="SwitchMap", options=defaultOptions, create=createWidget, update=updateWidget,'
       '  refresh=refreshWidget, background=backgroundProcessWidget }'
     )
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 11
     Visible = False
   end
   object Memo2: TMemo
@@ -1326,20 +1329,25 @@ object Form1: TForm1
     Font.Name = 'Courier New'
     Font.Pitch = fpFixed
     Font.Quality = fqDraft
-    Lines.Strings = (
-      'return {'
-      '    sa=  {"arm", "disarm", "disarm"},'
-      '    sb=  {"beep", "", ""},'
-      '    sc=  {"air", "hor", "angle"},'
-      '    sd=  {"", "", ""},'
-      '    se=  {"", "", ""},'
-      '    sf=  {"", "", "RTH"},'
-      '    sg=  {"", "", ""},'
-      '    sh=  {"", "", "zero timer"}'
-      '  }'
-    )
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 12
     Visible = False
+  end
+  object Label2: TLabel
+    Left = 13
+    Height = 15
+    Top = 507
+    Width = 67
+    Caption = 'Model name'
+    ParentColor = False
+  end
+  object Edit23: TEdit
+    Left = 88
+    Height = 23
+    Top = 502
+    Width = 136
+    OnChange = Edit23Change
+    TabOrder = 8
+    Text = 'default'
   end
 end

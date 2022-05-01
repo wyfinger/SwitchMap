@@ -43,12 +43,15 @@ type
     Edit20: TEdit;
     Edit21: TEdit;
     Edit22: TEdit;
+    Edit23: TEdit;
     img: TImage;
     Label1: TLabel;
+    Label2: TLabel;
     Memo1: TMemo;
     Memo2: TMemo;
     SpinEdit1: TSpinEdit;
     procedure Button1Click(Sender: TObject);
+    procedure Edit23Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure imgPaint(Sender: TObject);
     procedure SAEnterOrChange(Sender: TObject);
@@ -60,7 +63,7 @@ type
     procedure SGEnterOrChange(Sender: TObject);
     procedure SHEnterOrChange(Sender: TObject);
   private
-    SA, SB, SC, SD, SF, SE, SG, SH: string;
+    SA, SB, SC, SD, SF, SE, SG, SH, M: string;
   public
     procedure DrawMap();
   end;
@@ -76,14 +79,19 @@ implementation
 
 procedure TForm1.DrawMap();
 begin
+  //img.Canvas.FillRect(img.Canvas.ClipRect);
+  img.Canvas.Draw(0, 0, img.Picture.Graphic);
+
+  img.Canvas.Font.Color := $E6A131;
+  img.Canvas.Font.Size := 11;
+  img.Canvas.Font.Style := [fsBold];
+  img.Canvas.TextOut((460 div 2) - (img.Canvas.TextWidth(M) div 2), 25, M);
+
   img.Canvas.Pen.Color := clRed;
   img.Canvas.Pen.Width := 2;
   img.Canvas.Font.Color := clRed;
   img.Canvas.Font.Size := 11;
   img.Canvas.Font.Style := [fsBold];
-
-  //img.Canvas.FillRect(img.Canvas.ClipRect);
-  img.Canvas.Draw(0, 0, img.Picture.Graphic);
 
   if SA <> '' then
     begin
@@ -174,6 +182,7 @@ begin
   if Trim(Edit20.Text) <> '' then SG := Trim(Edit20.Text);
   SH := Trim(Edit21.Text);
   if Trim(Edit22.Text) <> '' then SH := Trim(Edit22.Text);
+  M := Trim(Edit23.Text);
 end;
 
 procedure TForm1.imgPaint(Sender: TObject);
@@ -199,6 +208,7 @@ begin
        begin
          Lines.Clear;
          Lines.Add('return {');
+         Lines.Add('  mn=  "'+Trim(Edit23.Text)+'",');
          Lines.Add('  sa=  {"'+Trim(Edit1.Text)+'", "'+Trim(Edit2.Text)+'", "'+Trim(Edit3.Text)+'"},');
          Lines.Add('  sb=  {"'+Trim(Edit4.Text)+'", "'+Trim(Edit5.Text)+'", "'+Trim(Edit6.Text)+'"},');
          Lines.Add('  sc=  {"'+Trim(Edit7.Text)+'", "'+Trim(Edit8.Text)+'", "'+Trim(Edit9.Text)+'"},');
@@ -211,6 +221,12 @@ begin
          Lines.SaveToFile(p+IntToStr(SpinEdit1.Value)+'.lua');
          ShellExecute(0, 'open', PChar(p), nil, nil, SW_NORMAL);
        end;
+end;
+
+procedure TForm1.Edit23Change(Sender: TObject);
+begin
+  M := Trim(TEdit(Sender).Text);
+  DrawMap;
 end;
 
 procedure TForm1.SAEnterOrChange(Sender: TObject);
