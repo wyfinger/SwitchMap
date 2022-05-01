@@ -1188,6 +1188,8 @@ object Form1: TForm1
       ''
       'local function updateWidget(wgt, newOptions)  '
       '  wgt.options = newOptions'
+      '  labels = loadScript("/WIDGETS/SwitchMap/" .. wgt.options.ModelNo .. ".lua")'
+      '  labels = labels()'
       'end'
       ''
       'local function backgroundProcessWidget(wgt)'
