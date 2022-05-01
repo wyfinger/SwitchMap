@@ -7,4 +7,4 @@ This is a small tool for RC pilots and for [OpenTx](https://github.com/opentx/op
 
 This tool helps to generate Lua widget with interactive image with labels at transmitter switches.
 
-![image](https://user-images.githubusercontent.com/431985/149760983-5c548e60-dae9-4f7b-8f41-0a5421910860.png)
+![image](https://user-images.githubusercontent.com/431985/166142959-93f4090c-43cf-4271-88b4-663b3c20a044.png)
